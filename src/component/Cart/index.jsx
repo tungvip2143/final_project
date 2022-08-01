@@ -5,6 +5,7 @@ import { addCart, delCart } from "../../redux/action";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 const Cart = () => {
+  //! State
   const state = useSelector((state) => state.handleCart);
   const dispatch = useDispatch();
 
@@ -80,6 +81,7 @@ const Cart = () => {
     );
   };
 
+  //! Render
   return (
     <div>
       {state.length === 0 && emptyCart()}

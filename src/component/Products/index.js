@@ -5,29 +5,12 @@ import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
 
 const Products = () => {
+  //! State
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   let componentMounted = true;
-
-  useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      const response = await fetch("https://fakestoreapi.com/products");
-
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
-        setLoading(false);
-      }
-      return () => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        componentMounted = false;
-      };
-    };
-    getProducts();
-  }, []);
 
   const Loading = () => {
     return (
@@ -126,6 +109,27 @@ const Products = () => {
       </>
     );
   };
+
+  //! Function
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      const response = await fetch("https://fakestoreapi.com/products");
+
+      if (componentMounted) {
+        setData(await response.clone().json());
+        setFilter(await response.json());
+        setLoading(false);
+      }
+      return () => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        componentMounted = false;
+      };
+    };
+    getProducts();
+  }, []);
+
+  //! Render
   return (
     <div>
       <div className="container my-5 py-5">

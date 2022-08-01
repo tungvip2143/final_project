@@ -42,6 +42,7 @@ function HideOnScroll(props) {
 }
 
 export default function Navbar(props) {
+  //! State
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
@@ -77,6 +78,8 @@ export default function Navbar(props) {
   const handleClickMenuBtn = (item) => {
     navigate(item);
   };
+
+  //! Render
   return (
     <HideOnScroll {...props}>
       <AppBar>

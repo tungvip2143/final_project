@@ -8,6 +8,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { addCart } from "../../redux/action";
 
 const Product = () => {
+  //! State
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,16 +20,6 @@ const Product = () => {
   const addProduct = (product) => {
     dispatch(addCart(product));
   };
-
-  useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-      setProduct(await response.json());
-      setLoading(false);
-    };
-    getProduct();
-  }, []);
 
   const Loading = () => {
     return (
@@ -48,6 +39,7 @@ const Product = () => {
       </>
     );
   };
+
   const ShowProduct = () => {
     return (
       <>
@@ -94,6 +86,18 @@ const Product = () => {
     );
   };
 
+  //! Function
+  useEffect(() => {
+    const getProduct = async () => {
+      setLoading(true);
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      setProduct(await response.json());
+      setLoading(false);
+    };
+    getProduct();
+  }, []);
+
+  //! Render
   return (
     <div>
       <div className="container py-5 pt-5">

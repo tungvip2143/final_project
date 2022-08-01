@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
 const Checkout = (product) => {
+  //!State
   const state = useSelector((state) => state.handleCart);
   var total = 0;
   const itemList = (item) => {
@@ -20,6 +21,8 @@ const Checkout = (product) => {
       </li>
     );
   };
+
+  //! Render
   return (
     <>
       <div className="container p-5 my-5">

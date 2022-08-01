@@ -2,8 +2,6 @@ import { createTheme } from "@mui/material";
 import * as colors from "./ThemeColor";
 
 const themePalette = createTheme({
-  //! State
-
   palette: {
     secondary: {
       main: colors.grey[500],
