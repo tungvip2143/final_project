@@ -48,9 +48,12 @@ function Navbar(props) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-    console.log("handleDrawerToggle", !mobileOpen);
+  const handleDrawerToggle = (newValue) => {
+    if (newValue === undefined) {
+      setMobileOpen(!mobileOpen);
+    } else {
+      setMobileOpen(newValue);
+    }
   };
   const navigate = useNavigate();
   const state = useSelector((state) => state.handleCart);

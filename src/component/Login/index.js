@@ -33,7 +33,6 @@ const Login = ({ open, handleDrawerToggle }) => {
   };
 
   const changeShowPopUpSuccess = (value) => {
-    console.log("ádfasdfa", value);
     setShowPopUpSuccess(value);
   };
 
@@ -60,9 +59,8 @@ const Login = ({ open, handleDrawerToggle }) => {
   }, [isLogged, open]);
 
   useEffect(() => {
-    console.log("showPopUpSuccess", !showPopUpSuccess);
     if (!showPopUpSuccess) {
-      handleDrawerToggle();
+      handleDrawerToggle(false);
     }
   }, [showPopUpSuccess]);
 
@@ -71,7 +69,7 @@ const Login = ({ open, handleDrawerToggle }) => {
     <div>
       <Modal
         open={open}
-        onClose={handleDrawerToggle}
+        onClose={() => handleDrawerToggle(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

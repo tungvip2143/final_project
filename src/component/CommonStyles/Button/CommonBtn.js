@@ -21,7 +21,6 @@ export const colorBtnEnum = {
 const ButtonStyled = styled(ButtonMUI)((propsStyled) => {
   const { variant, color, theme } = propsStyled;
 
-  // console.log(propsStyled);
   let bgColorHovered = "";
   let colorTextHovered = "";
 

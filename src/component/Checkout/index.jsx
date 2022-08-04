@@ -21,17 +21,18 @@ const Checkout = (product) => {
   //!State
   const state = useSelector((state) => state.handleCart);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setTimeout(() => {
       window.location.reload();
     }, 2000);
     setOpen(true);
   };
-  const handleClose = () => setOpen(false);
   var total = 0;
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   const itemList = (item) => {
     total = total + item.qty * item.price;
     return (
@@ -379,11 +380,7 @@ const Checkout = (product) => {
 
               <hr className="my-4" />
 
-              <button
-                onClick={handleOpen}
-                className="w-100 btn btn-primary btn-lg"
-                type="submit"
-              >
+              <button className="w-100 btn btn-primary btn-lg" type="submit">
                 Continue to checkout
               </button>
               <div>{CheckoutSuccess}</div>

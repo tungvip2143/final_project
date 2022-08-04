@@ -6,12 +6,11 @@ import LoginSuccess from "../components/LoginSuccess";
 const { colors } = themeCustom;
 export const PopUpSuccess = (props) => {
   const { changeShowPopUpSuccess, currentState } = props;
-  console.log("currentState", currentState);
+
   const timer = useRef();
-  console.log("timer", timer);
+
   useEffect(() => {
     if (currentState && timer.current) {
-      console.log("timer.current15", timer.current);
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
@@ -19,7 +18,6 @@ export const PopUpSuccess = (props) => {
     }, 2000);
     return () => {
       if (timer.current) {
-        console.log("timer.current23", timer.current);
         clearTimeout(timer.current);
       }
     };
