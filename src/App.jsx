@@ -5,13 +5,14 @@ import Product from "./component/ProductDetail";
 import { Routes, Route } from "react-router-dom";
 import Cart from "./component/Cart";
 import Checkout from "./component/Checkout";
+import "./App.css";
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />

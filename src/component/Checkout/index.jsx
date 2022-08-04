@@ -1,13 +1,39 @@
 import React from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
+import * as color from "../themeCustom/ThemeColor";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  backgroundColor: "background.paper",
+  border: "2px solid #a6e22e",
+  boxShadow: 24,
+  p: 4,
+};
 const Checkout = (product) => {
   //!State
   const state = useSelector((state) => state.handleCart);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
   var total = 0;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   const itemList = (item) => {
     total = total + item.qty * item.price;
-
     return (
       <li
         className="list-group-item d-flex justify-content-between lh-sm"
@@ -21,6 +47,29 @@ const Checkout = (product) => {
       </li>
     );
   };
+  const CheckoutSuccess = (
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <section>
+            <Typography
+              variant="h4"
+              align="center"
+              component="h1"
+              sx={{ color: color.green[600] }}
+            >
+              Thank you for your purchase !
+            </Typography>
+          </section>
+        </Box>
+      </Modal>
+    </div>
+  );
 
   //! Render
   return (
@@ -57,7 +106,7 @@ const Checkout = (product) => {
           </div>
           <div className="col-md-7 col-lg-8">
             <h4 className="mb-3">Billing address</h4>
-            <form className="needs-validation" noValidate="">
+            <form className="needs-validation" onSubmit={handleSubmit}>
               <div className="row g-3">
                 <div className="col-sm-6">
                   <label htmlFor="firstName" className="form-label">
@@ -330,9 +379,14 @@ const Checkout = (product) => {
 
               <hr className="my-4" />
 
-              <button className="w-100 btn btn-primary btn-lg" type="submit">
+              <button
+                onClick={handleOpen}
+                className="w-100 btn btn-primary btn-lg"
+                type="submit"
+              >
                 Continue to checkout
               </button>
+              <div>{CheckoutSuccess}</div>
             </form>
           </div>
         </div>
@@ -341,4 +395,4 @@ const Checkout = (product) => {
   );
 };
 
-export default Checkout;
+export default React.memo(Checkout);

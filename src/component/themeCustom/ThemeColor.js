@@ -18,6 +18,10 @@ export const grey = {
 export const black = {
   500: "#000",
 };
+export const green = {
+  500: "#a5dc86",
+  600: "#a6e22e",
+};
 
 export const red = {
   500: "#ed0b4c",

@@ -23,10 +23,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import LogoutIcon from "@mui/icons-material/Logout";
+import Login from "../Login";
 
 const { colors } = themeCustom;
-
-const settings = ["Logout"];
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -41,13 +41,36 @@ function HideOnScroll(props) {
   );
 }
 
-export default function Navbar(props) {
+function Navbar(props) {
   //! State
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const navigate = useNavigate();
   const [menu, setMenu] = useState([]);
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+    console.log("handleDrawerToggle", !mobileOpen);
+  };
+  const navigate = useNavigate();
   const state = useSelector((state) => state.handleCart);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleClickMenuBtn = (item) => {
+    navigate(item);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("isLogged");
+    navigate("/home");
+  };
+  //!Function
   useEffect(() => {
     const listMenu = Object.entries(permission).map((el, index) => {
       return {
@@ -60,25 +83,6 @@ export default function Navbar(props) {
     setMenu(listMenu);
   }, []);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleClickMenuBtn = (item) => {
-    navigate(item);
-  };
-
   //! Render
   return (
     <HideOnScroll {...props}>
@@ -87,7 +91,7 @@ export default function Navbar(props) {
           <Toolbar disableGutters>
             <FlutterDashIcon />
             <Button
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
               variant="text"
               component="a"
               color="white"
@@ -156,60 +160,54 @@ export default function Navbar(props) {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="User settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ pr: 2 }}>
+                <IconButton onClick={handleDrawerToggle} sx={{ mr: 2 }}>
                   <PersonOutlineIcon color="white" />
                 </IconButton>
               </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+              <Login
+                open={mobileOpen}
+                handleDrawerToggle={handleDrawerToggle}
+              />
             </Box>
-            <NavLink to="/cart">
-              <ShoppingCartIcon color="white" />
-              {state && state.length > 0 && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "8px",
-                    right: "-8px",
-                    width: "20px",
-                    height: "20px",
-                    textAlign: "center",
-                    color: "#fff",
-                    borderRadius: "50%",
-                    background: colors.red[500],
-                    fontSize: " 0.6rem",
-                    lineHeight: " 20px",
-                  }}
-                >
-                  <p className="text-xs text-white font-semibold">
-                    {state.length}
-                  </p>
-                </div>
-              )}
-            </NavLink>
+            {localStorage.getItem("isLogged") ? (
+              <NavLink to="/cart">
+                <IconButton>
+                  <ShoppingCartIcon color="white" />
+                  {state && state.length > 0 && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "-3px",
+                        right: "-4px",
+                        width: "20px",
+                        height: "20px",
+                        textAlign: "center",
+                        color: "#fff",
+                        borderRadius: "50%",
+                        background: colors.red[500],
+                        fontSize: " 0.6rem",
+                        lineHeight: " 20px",
+                      }}
+                    >
+                      <p className="text-xs text-white font-semibold">
+                        {state.length}
+                      </p>
+                    </span>
+                  )}
+                </IconButton>
+              </NavLink>
+            ) : null}
+            {localStorage.getItem("isLogged") ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <IconButton onClick={handleLogout} sx={{ ml: 2 }}>
+                  <LogoutIcon color="white" />
+                </IconButton>
+              </Box>
+            ) : null}
           </Toolbar>
         </Container>
       </AppBar>
     </HideOnScroll>
   );
 }
+export default React.memo(Navbar);

@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import StarIcon from "@mui/icons-material/Star";
 import { addCart } from "../../redux/action";
+import { Typography } from "@mui/material";
 
 const Product = () => {
   //! State
@@ -78,9 +79,13 @@ const Product = () => {
           >
             Add to Cart
           </button>
-          <NavLink to="/cart" className="btn btn-dark ms-2 px-3 py-2">
-            Go to Cart
-          </NavLink>
+          {localStorage.getItem("isLogged") ? (
+            <NavLink to="/cart" className="btn btn-dark ms-2 px-3 py-2">
+              Go to Cart
+            </NavLink>
+          ) : (
+            <div className="btn btn-dark ms-2 px-3 py-2">Go to Cart</div>
+          )}
         </div>
       </>
     );
@@ -109,4 +114,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default React.memo(Product);
