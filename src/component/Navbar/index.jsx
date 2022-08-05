@@ -14,17 +14,18 @@ import {
 } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/exports";
-
-import permission from "./permisson";
-import Button from "../CommonStyles/Button/CommonBtn";
-import themeCustom from "../themeCustom";
 //Import Icon
 import MenuIcon from "@mui/icons-material/Menu";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Login from "../Login";
+import DialogLogin from "../Dialogs/DialogLogin";
+import useToggleDialog from "../../hooks/useToggleDialog";
+import { sleep } from "../../helpers";
+import permission from "./permission";
+import Button from "../CommonStyles/Button/CommonBtn";
+import themeCustom from "../themeCustom";
 
 const { colors } = themeCustom;
 
@@ -43,18 +44,15 @@ function HideOnScroll(props) {
 
 function Navbar(props) {
   //! State
+  const [isLogged, setLogged] = useState(
+    localStorage.getItem("isLogged") === "true"
+  );
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [menu, setMenu] = useState([]);
+  const [openDialogLogin, toggleDialogLogin, shouldRenderDialogLogin] =
+    useToggleDialog();
 
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = (newValue) => {
-    if (newValue === undefined) {
-      setMobileOpen(!mobileOpen);
-    } else {
-      setMobileOpen(newValue);
-    }
-  };
   const navigate = useNavigate();
   const state = useSelector((state) => state.handleCart);
 
@@ -71,7 +69,7 @@ function Navbar(props) {
   };
   const handleLogout = () => {
     localStorage.removeItem("isLogged");
-    navigate("/home");
+    setLogged(false);
   };
   //!Function
   useEffect(() => {
@@ -86,6 +84,25 @@ function Navbar(props) {
     setMenu(listMenu);
   }, []);
 
+  const onSubmitSignIn = async (values, helpersFormik) => {
+    const { setSubmitting } = helpersFormik;
+    console.log(helpersFormik);
+
+    //* 1: Call API Login with email/ password
+    await sleep(2000);
+
+    //* 2: Set state isLogged => true
+    localStorage.setItem("isLogged", true);
+    setLogged(true);
+    setSubmitting(false);
+
+    //* 3: Animation time ended
+    await sleep(1500);
+
+    //* 4: Turn off dialog
+    toggleDialogLogin();
+  };
+
   //! Render
   return (
     <HideOnScroll {...props}>
@@ -94,7 +111,7 @@ function Navbar(props) {
           <Toolbar disableGutters>
             <FlutterDashIcon />
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               variant="text"
               component="a"
               color="white"
@@ -163,14 +180,18 @@ function Navbar(props) {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="User settings">
-                <IconButton onClick={handleDrawerToggle} sx={{ mr: 2 }}>
+                <IconButton onClick={toggleDialogLogin} sx={{ mr: 2 }}>
                   <PersonOutlineIcon color="white" />
                 </IconButton>
               </Tooltip>
-              <Login
-                open={mobileOpen}
-                handleDrawerToggle={handleDrawerToggle}
-              />
+              {shouldRenderDialogLogin && (
+                <DialogLogin
+                  open={openDialogLogin}
+                  toggle={toggleDialogLogin}
+                  isLogged={isLogged}
+                  onSubmitSignIn={onSubmitSignIn}
+                />
+              )}
             </Box>
             {localStorage.getItem("isLogged") ? (
               <NavLink to="/cart">

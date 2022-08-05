@@ -2,7 +2,7 @@ const permission = {
   Home: {
     id: 1,
     name: "Home",
-    href: "/home",
+    href: "/",
   },
   Products: {
     id: 2,

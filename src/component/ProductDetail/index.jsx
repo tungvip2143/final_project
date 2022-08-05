@@ -6,7 +6,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import StarIcon from "@mui/icons-material/Star";
 import { addCart } from "../../redux/action";
-import { Typography } from "@mui/material";
 
 const Product = () => {
   //! State

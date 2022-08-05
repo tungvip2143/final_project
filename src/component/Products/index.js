@@ -11,7 +11,7 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   let componentMounted = true;
-
+  console.log(loading);
   const Loading = () => {
     return (
       <>

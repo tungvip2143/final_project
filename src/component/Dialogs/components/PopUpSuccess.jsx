@@ -1,27 +1,15 @@
 import { Typography } from "@mui/material";
 import themeCustom from "../../themeCustom";
-import { useEffect, useRef } from "react";
 import LoginSuccess from "../components/LoginSuccess";
 
 const { colors } = themeCustom;
+
 export const PopUpSuccess = (props) => {
-  const { changeShowPopUpSuccess, currentState } = props;
+  //! State
 
-  const timer = useRef();
+  //! Function
 
-  useEffect(() => {
-    if (currentState && timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      changeShowPopUpSuccess(false);
-    }, 2000);
-    return () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-    };
-  }, [currentState, changeShowPopUpSuccess]);
+  //! Render
   return (
     <section>
       <Typography

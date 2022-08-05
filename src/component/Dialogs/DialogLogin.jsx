@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box, Modal, TextField, Typography } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router";
 import * as Yup from "yup";
 
 import Button from "../CommonStyles/Button/CommonBtn";
@@ -22,18 +21,12 @@ const style = {
   overflowY: "hidden",
   overflowX: " hidden",
 };
-const Login = ({ open, handleDrawerToggle }) => {
+
+const DialogLogin = ({ open, toggle, isLogged, onSubmitSignIn }) => {
   //! State
-  const isLogged = localStorage.getItem("isLogged");
-  const [showPopUpSuccess, setShowPopUpSuccess] = useState();
-  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
-  };
-
-  const changeShowPopUpSuccess = (value) => {
-    setShowPopUpSuccess(value);
   };
 
   const validationSchema = Yup.object().shape({
@@ -43,48 +36,24 @@ const Login = ({ open, handleDrawerToggle }) => {
       .min(7, "Password should be minium 7 Characters"),
   });
 
-  const onSubmit = (values, props) => {
-    setTimeout(() => {
-      localStorage.setItem("isLogged", true);
-      props.setSubmitting(false);
-      navigate("/home");
-    }, 2000);
-  };
-
-  //! Function
-  useEffect(() => {
-    if (isLogged && open) {
-      setShowPopUpSuccess(true);
-    }
-  }, [isLogged, open]);
-
-  useEffect(() => {
-    if (!showPopUpSuccess) {
-      handleDrawerToggle(false);
-    }
-  }, [showPopUpSuccess]);
-
   //! Render
   return (
     <div>
       <Modal
         open={open}
-        onClose={() => handleDrawerToggle(false)}
+        onClose={toggle}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           {isLogged ? (
-            <PopUpSuccess
-              currentState={showPopUpSuccess}
-              changeShowPopUpSuccess={changeShowPopUpSuccess}
-            />
+            <PopUpSuccess />
           ) : (
             <Formik
               validateOnBlur={false}
               validateOnChange={false}
               initialValues={initialValues}
-              onSubmit={onSubmit}
+              onSubmit={onSubmitSignIn}
               validationSchema={validationSchema}
             >
               {(props) => (
@@ -153,4 +122,4 @@ const Login = ({ open, handleDrawerToggle }) => {
   );
 };
 
-export default React.memo(Login);
+export default React.memo(DialogLogin);

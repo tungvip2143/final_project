@@ -1,6 +1,8 @@
 import React from "react";
 import "../components/LoginSuccess.css";
+
 const LoginSuccess = () => {
+  //! Render
   return (
     <div
       className="swal2-icon swal2-success swal2-animate-success-icon"
