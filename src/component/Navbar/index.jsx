@@ -100,6 +100,7 @@ function Navbar(props) {
     await sleep(1500);
 
     //* 4: Turn off dialog
+    window.location.reload();
     toggleDialogLogin();
   };
 

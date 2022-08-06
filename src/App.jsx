@@ -5,6 +5,7 @@ import Product from "./component/ProductDetail";
 import { Routes, Route } from "react-router-dom";
 import Cart from "./component/Cart";
 import Checkout from "./component/Checkout";
+import Footer from "./component/Footer";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
+      <Footer />
     </>
   );
 }
