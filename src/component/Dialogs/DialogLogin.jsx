@@ -64,16 +64,16 @@ const DialogLogin = ({ open, toggle, isLogged, onSubmitSignIn }) => {
                     component="div"
                     sx={{ pb: 2 }}
                   >
-                    Đăng nhập
+                    Sign in
                   </Typography>
                   <Typography
                     align="center"
                     variant="subtitle1"
                     component="div"
                   >
-                    Nếu đã từng mua hàng trên Website trước đây, bạn có thể dùng
-                    tính năng <a href="#">"Lấy mật khẩu"</a> để có thể truy cập
-                    vào tài khoản bằng email nhé.
+                    If you have made a purchase on the Website before, you can
+                    use the <a href="#">"Get password"</a> feature to access
+                    your account by email.
                   </Typography>
                   <Field
                     as={TextField}
